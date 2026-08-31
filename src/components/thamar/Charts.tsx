@@ -1,6 +1,6 @@
 import {
   Area,
-  AreaChart,
+  ComposedChart,
   Bar,
   BarChart,
   CartesianGrid,
@@ -40,7 +40,7 @@ export function PersonalChart({ data }: { data: MonthlyPoint[] }) {
   const rows = data.map((d) => ({ ...d, name: lang === "ar" ? d.month : d.monthEn }));
   return (
     <ResponsiveContainer width="100%" height={280}>
-      <AreaChart data={rows} margin={{ top: 8, right: 8, left: 8, bottom: 0 }}>
+      <ComposedChart data={rows} margin={{ top: 8, right: 8, left: 8, bottom: 0 }}>
         <defs>
           <linearGradient id="gSavings" x1="0" y1="0" x2="0" y2="1">
             <stop offset="0%" stopColor="var(--color-primary)" stopOpacity={0.35} />
@@ -82,7 +82,7 @@ export function PersonalChart({ data }: { data: MonthlyPoint[] }) {
           strokeDasharray="5 4"
           dot={false}
         />
-      </AreaChart>
+      </ComposedChart>
     </ResponsiveContainer>
   );
 }
