@@ -53,11 +53,13 @@ export function PersonalChart({ data }: { data: MonthlyPoint[] }) {
         </defs>
         <CartesianGrid strokeDasharray="3 3" stroke="var(--color-border)" vertical={false} />
         <XAxis dataKey="name" {...axis} />
-        <YAxis {...axis} width={56} />
+        <YAxis yAxisId="left" {...axis} width={56} />
+        <YAxis yAxisId="right" orientation="right" {...axis} width={52} />
         <Tooltip {...tooltipStyle} />
         <Legend wrapperStyle={{ fontSize: 12 }} />
         <Area
           type="monotone"
+          yAxisId="left"
           dataKey="savings"
           name={t("savings")}
           stroke="var(--color-primary)"
@@ -66,15 +68,17 @@ export function PersonalChart({ data }: { data: MonthlyPoint[] }) {
         />
         <Area
           type="monotone"
+          yAxisId="left"
           dataKey="emergencyFund"
           name={t("emergency")}
           stroke="var(--color-accent)"
           fill="url(#gEmergency)"
           strokeWidth={2}
         />
-        <Line type="monotone" dataKey="income" name={t("income")} stroke="var(--color-chart-2)" strokeWidth={2} dot={false} />
+        <Line yAxisId="right" type="monotone" dataKey="income" name={t("income")} stroke="var(--color-chart-2)" strokeWidth={2} dot={false} />
         <Line
           type="monotone"
+          yAxisId="right"
           dataKey="expenses"
           name={t("expenses")}
           stroke="var(--color-destructive)"
