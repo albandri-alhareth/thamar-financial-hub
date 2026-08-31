@@ -1,20 +1,20 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, Sprout } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { useLang } from "@/lib/i18n";
-import { LangToggle } from "@/components/thamar/LangToggle";
+import { AppHeader, Watermark } from "@/components/thamar/Brand";
 
 export const Route = createFileRoute("/privacy")({
   head: () => ({
     meta: [
-      { title: "سياسة الخصوصية — ثمار Thamar" },
+      { title: "سياسة الخصوصية — ثَمَر Thamar" },
       {
         name: "description",
-        content: "كيف تتعامل منصة ثمار مع بياناتك: بيانات تجريبية فقط، دون هوية أو حسابات بنكية أو بطاقات.",
+        content: "كيف تتعامل منصة ثَمَر مع بياناتك: بيانات تجريبية فقط، دون هوية أو حسابات بنكية أو بطاقات.",
       },
-      { property: "og:title", content: "سياسة الخصوصية — ثمار Thamar" },
+      { property: "og:title", content: "سياسة الخصوصية — ثَمَر Thamar" },
       {
         property: "og:description",
-        content: "ثمار لا تجمع هوية أو بيانات بنكية أو بطاقات؛ التجربة تعمل ببيانات تجريبية فقط.",
+        content: "ثَمَر لا تجمع هوية أو بيانات بنكية أو بطاقات؛ التجربة تعمل ببيانات تجريبية فقط.",
       },
     ],
   }),
@@ -23,7 +23,7 @@ export const Route = createFileRoute("/privacy")({
 
 const sections = {
   ar: [
-    ["ما الذي نجمعه", "لا تجمع النسخة التجريبية من ثمار أي بيانات هوية أو حسابات بنكية أو أرقام بطاقات أو كلمات مرور. جميع الأرقام المعروضة داخل التطبيق بيانات تجريبية ثابتة."],
+    ["ما الذي نجمعه", "لا تجمع النسخة التجريبية من ثَمَر أي بيانات هوية أو حسابات بنكية أو أرقام بطاقات أو كلمات مرور. جميع الأرقام المعروضة داخل التطبيق بيانات تجريبية ثابتة."],
     ["كيف تُستخدم البيانات", "تُستخدم الأرقام التجريبية لعرض المؤشرات والرسوم البيانية والتوصيات الاسترشادية داخل متصفحك فقط."],
     ["التخزين المحلي", "نحفظ تفضيل اللغة (عربي/إنجليزي) في متصفحك فقط، ويمكن حذفه بمسح بيانات الموقع."],
     ["أطراف ثالثة", "لا تتم مشاركة أي بيانات مع أطراف ثالثة، ولا تُستخدم مفاتيح أو أسرار داخل التطبيق."],
@@ -41,16 +41,9 @@ const sections = {
 function Privacy() {
   const { lang, t } = useLang();
   return (
-    <main className="min-h-screen bg-background">
-      <header className="border-b border-border bg-card">
-        <div className="mx-auto flex max-w-3xl items-center justify-between px-4 py-4">
-          <Link to="/" className="flex items-center gap-2 font-bold text-primary">
-            <Sprout className="size-5" aria-hidden />
-            {t("brand")}
-          </Link>
-          <LangToggle />
-        </div>
-      </header>
+    <main className="relative min-h-screen bg-background">
+      <Watermark />
+      <AppHeader />
 
       <div className="mx-auto max-w-3xl px-4 py-10">
         <h1 className="text-3xl font-extrabold">{t("privacy")}</h1>
@@ -64,7 +57,7 @@ function Privacy() {
         </div>
         <Link
           to="/"
-          className="mt-8 inline-flex items-center gap-2 text-sm font-medium text-primary underline underline-offset-4"
+          className="mt-8 inline-flex items-center gap-2 text-sm font-medium text-primary-strong underline underline-offset-4"
         >
           <ArrowRight className="size-4 rtl:rotate-180" aria-hidden />
           {t("backHome")}
