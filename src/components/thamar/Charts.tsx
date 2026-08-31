@@ -139,7 +139,7 @@ export function OpportunityChart({ data }: { data: Opportunity[] }) {
     name: t(d.key),
     suitability: d.suitability,
     estReturn: d.estReturn,
-    isBest: d.key === best.key,
+    isBest: d.key === best?.key,
   }));
   return (
     <ResponsiveContainer width="100%" height={300}>
