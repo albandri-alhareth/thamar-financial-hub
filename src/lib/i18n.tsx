@@ -10,7 +10,52 @@ import {
 export type Lang = "ar" | "en";
 
 const dict = {
-  brand: { ar: "ثمار", en: "Thamar" },
+  brand: { ar: "ثَمَر", en: "Thamar" },
+  portfolio: { ar: "محفظتك المستقبلية", en: "Your Future Portfolio" },
+  portfolioSub: {
+    ar: "صورة شاملة لوضعك المالي الحالي والتوصيات المناسبة له",
+    en: "A complete picture of your finances and the recommendations that fit it",
+  },
+  todayInvest: { ar: "استثمار اليوم", en: "Invest Today" },
+  todayInvestSub: {
+    ar: "حالة السوق اليوم ومقارنة الفرص الاستثمارية ببيانات تجريبية",
+    en: "Today's market snapshot and an opportunity comparison, on demo data",
+  },
+  bestForYou: { ar: "أفضل التوصيات الاستثمارية لك", en: "Best investment picks for you" },
+  aboutTitle: { ar: "ما هي ثَمَر؟", en: "What is Thamar?" },
+  aboutBody: {
+    ar: "ثَمَر منصة مالية تساعدك على فهم استدامتك المالية قبل الاستثمار: تقرأ دخلك ومصروفاتك ومدخراتك وصندوق طوارئك، ثم تقارنها بحالة السوق لتعرض لك فرصًا استثمارية مرتّبة حسب ملاءمتها لوضعك أنت — لا حسب سعر الأصل فقط.",
+    en: "Thamar helps you understand your financial sustainability before investing: it reads your income, expenses, savings and emergency fund, compares them with market conditions, and ranks investment options by how well they fit your situation — not by asset price alone.",
+  },
+  aboutPoint1: { ar: "استدامة مالية أولًا", en: "Sustainability first" },
+  aboutPoint1Body: {
+    ar: "نقيس قدرتك على تغطية مصروفاتك وبناء صندوق طوارئ قبل أي توصية استثمارية.",
+    en: "We measure your ability to cover expenses and build an emergency fund before any recommendation.",
+  },
+  aboutPoint2: { ar: "قرار مبني على بيانتين", en: "Two-sided decisions" },
+  aboutPoint2Body: {
+    ar: "التوصيات تجمع بياناتك الشخصية مع مؤشرات السوق معًا.",
+    en: "Recommendations blend your personal data with market indicators.",
+  },
+  aboutPoint3: { ar: "وضوح لا تعقيد", en: "Clarity, not complexity" },
+  aboutPoint3Body: {
+    ar: "مؤشرات ورسوم مبسّطة بالعربية والإنجليزية، بدون مصطلحات غامضة.",
+    en: "Simple indicators and charts in Arabic and English, without jargon.",
+  },
+  getStarted: { ar: "ابدأ الاستخدام", en: "Get started" },
+  assistant: { ar: "المساعد المالي الذكي", en: "Smart financial assistant" },
+  assistantSub: {
+    ar: "يشرح المؤشرات والمخاطر وأنواع الاستثمار بأسلوب تعليمي عام، دون أي ضمان للربح أو توصية مؤكدة.",
+    en: "Explains indicators, risk and investment types in general educational terms — no profit guarantees or confirmed advice.",
+  },
+  assistantPh: { ar: "اسأل عن الاستدامة المالية أو معنى مؤشر معين…", en: "Ask about financial sustainability or an indicator…" },
+  send: { ar: "إرسال", en: "Send" },
+  thinking: { ar: "جارٍ التفكير…", en: "Thinking…" },
+  assistantError: { ar: "تعذّر الحصول على رد الآن، حاول مرة أخرى.", en: "Could not get a reply right now, please try again." },
+  assistantIntro: {
+    ar: "مرحبًا! أنا مساعد ثَمَر التعليمي. اسألني عن الاستدامة المالية، معنى التضخم والفائدة، الفرق بين الذهب والأسهم والبيتكوين والنفط، أو كيف تقرأ نتائج المنصة.",
+    en: "Hi! I'm Thamar's educational assistant. Ask me about financial sustainability, what inflation and interest mean, how gold, stocks, bitcoin and oil differ, or how to read the platform's results.",
+  },
   tagline: {
     ar: "منصة مالية ذكية تحوّل بياناتك إلى قرارات استثمارية واضحة",
     en: "A smart finance platform turning your data into clear investment decisions",

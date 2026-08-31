@@ -78,10 +78,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "ثمار Thamar — منصة مالية ذكية" },
+      { title: "ثَمَر Thamar — منصة مالية ذكية" },
       {
         name: "description",
-        content: "ثمار: منصة مالية تجريبية تعرض مؤشراتك الشخصية واتجاهات السوق وتوصيات استثمارية استرشادية.",
+        content: "ثَمَر: منصة مالية تجريبية تعرض مؤشراتك الشخصية واتجاهات السوق وتوصيات استثمارية استرشادية.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -94,7 +94,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         rel: "stylesheet",
         href: "https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Tajawal:wght@500;700;800&display=swap",
       },
-      { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+      { rel: "icon", href: "/favicon.png", type: "image/png" },
     ],
   }),
   shellComponent: RootShell,
