@@ -16,14 +16,15 @@ import {
   YAxis,
 } from "recharts";
 import { useLang } from "@/lib/i18n";
+import { useIsMobile } from "@/hooks/use-mobile";
 import type { AllocationSlice, MarketPoint, MonthlyPoint, Opportunity } from "@/lib/finance-api";
 
 const axis = {
   stroke: "var(--color-muted-foreground)",
-  fontSize: 12,
   tickLine: false,
   axisLine: false,
-};
+  tick: { fontSize: 11, fill: "var(--color-muted-foreground)" },
+} as const;
 
 const tooltipStyle = {
   contentStyle: {
@@ -32,31 +33,59 @@ const tooltipStyle = {
     background: "var(--color-card)",
     color: "var(--color-card-foreground)",
     fontSize: "12px",
+    boxShadow: "var(--shadow-soft)",
   },
+  labelStyle: { color: "var(--color-foreground)", fontWeight: 600, marginBottom: 4 },
+  cursor: { stroke: "var(--color-border)" },
 } as const;
+
+const legendStyle = { fontSize: 12, paddingTop: 8 } as const;
+
+/** Keeps every chart inside its card on small screens. */
+function ChartBox({ height, children }: { height: number; children: React.ReactElement }) {
+  return (
+    <div className="w-full min-w-0" style={{ height }} dir="ltr">
+      <ResponsiveContainer width="100%" height="100%">
+        {children}
+      </ResponsiveContainer>
+    </div>
+  );
+}
 
 export function PersonalChart({ data }: { data: MonthlyPoint[] }) {
   const { lang, t } = useLang();
+  const isMobile = useIsMobile();
   const rows = data.map((d) => ({ ...d, name: lang === "ar" ? d.month : d.monthEn }));
   return (
-    <ResponsiveContainer width="100%" height={280}>
-      <ComposedChart data={rows} margin={{ top: 8, right: 8, left: 8, bottom: 0 }}>
+    <ChartBox height={isMobile ? 260 : 300}>
+      <ComposedChart data={rows} margin={{ top: 8, right: 4, left: 0, bottom: 0 }}>
         <defs>
           <linearGradient id="gSavings" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="var(--color-primary)" stopOpacity={0.35} />
+            <stop offset="0%" stopColor="var(--color-primary)" stopOpacity={0.3} />
             <stop offset="100%" stopColor="var(--color-primary)" stopOpacity={0} />
           </linearGradient>
           <linearGradient id="gEmergency" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="var(--color-accent)" stopOpacity={0.35} />
+            <stop offset="0%" stopColor="var(--color-accent)" stopOpacity={0.25} />
             <stop offset="100%" stopColor="var(--color-accent)" stopOpacity={0} />
           </linearGradient>
         </defs>
         <CartesianGrid strokeDasharray="3 3" stroke="var(--color-border)" vertical={false} />
-        <XAxis dataKey="name" {...axis} />
-        <YAxis yAxisId="left" {...axis} width={56} />
-        <YAxis yAxisId="right" orientation="right" {...axis} width={52} />
+        <XAxis dataKey="name" {...axis} interval="preserveStartEnd" minTickGap={8} />
+        <YAxis
+          yAxisId="left"
+          {...axis}
+          width={isMobile ? 36 : 48}
+          tickFormatter={(v: number) => (v >= 1000 ? `${Math.round(v / 1000)}k` : `${v}`)}
+        />
+        <YAxis
+          yAxisId="right"
+          orientation="right"
+          {...axis}
+          width={isMobile ? 32 : 44}
+          tickFormatter={(v: number) => (v >= 1000 ? `${Math.round(v / 1000)}k` : `${v}`)}
+        />
         <Tooltip {...tooltipStyle} />
-        <Legend wrapperStyle={{ fontSize: 12 }} />
+        <Legend wrapperStyle={legendStyle} iconType="plainline" />
         <Area
           type="monotone"
           yAxisId="left"
@@ -75,7 +104,15 @@ export function PersonalChart({ data }: { data: MonthlyPoint[] }) {
           fill="url(#gEmergency)"
           strokeWidth={2}
         />
-        <Line yAxisId="right" type="monotone" dataKey="income" name={t("income")} stroke="var(--color-chart-2)" strokeWidth={2} dot={false} />
+        <Line
+          yAxisId="right"
+          type="monotone"
+          dataKey="income"
+          name={t("income")}
+          stroke="var(--color-chart-2)"
+          strokeWidth={2}
+          dot={false}
+        />
         <Line
           type="monotone"
           yAxisId="right"
@@ -87,7 +124,7 @@ export function PersonalChart({ data }: { data: MonthlyPoint[] }) {
           dot={false}
         />
       </ComposedChart>
-    </ResponsiveContainer>
+    </ChartBox>
   );
 }
 
@@ -103,41 +140,58 @@ export function AllocationChart({ data }: { data: AllocationSlice[] }) {
   const { t } = useLang();
   const rows = data.map((d) => ({ ...d, name: t(d.key) }));
   return (
-    <ResponsiveContainer width="100%" height={280}>
-      <PieChart>
-        <Pie data={rows} dataKey="value" nameKey="name" innerRadius={58} outerRadius={95} paddingAngle={3}>
-          {rows.map((r) => (
-            <Cell key={r.key} fill={sliceColors[r.key]} stroke="var(--color-card)" strokeWidth={2} />
-          ))}
-        </Pie>
-        <Tooltip {...tooltipStyle} formatter={(v: number) => `${v}%`} />
-        <Legend wrapperStyle={{ fontSize: 12 }} />
-      </PieChart>
-    </ResponsiveContainer>
+    <div>
+      <ChartBox height={220}>
+        <PieChart margin={{ top: 4, right: 4, bottom: 4, left: 4 }}>
+          <Pie data={rows} dataKey="value" nameKey="name" innerRadius={54} outerRadius={86} paddingAngle={3}>
+            {rows.map((r) => (
+              <Cell key={r.key} fill={sliceColors[r.key]} stroke="var(--color-card)" strokeWidth={2} />
+            ))}
+          </Pie>
+          <Tooltip {...tooltipStyle} formatter={(v: number) => `${v}%`} />
+        </PieChart>
+      </ChartBox>
+
+      <ul className="mt-4 grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
+        {rows.map((r) => (
+          <li key={r.key} className="flex min-w-0 items-center gap-2">
+            <span
+              className="size-2.5 shrink-0 rounded-full"
+              style={{ background: sliceColors[r.key] }}
+              aria-hidden
+            />
+            <span className="truncate text-muted-foreground">{r.name}</span>
+            <span className="ms-auto font-medium tabular-nums">{r.value}%</span>
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }
 
 export function MarketChart({ data }: { data: MarketPoint[] }) {
   const { t } = useLang();
+  const isMobile = useIsMobile();
   return (
-    <ResponsiveContainer width="100%" height={300}>
-      <LineChart data={data} margin={{ top: 8, right: 8, left: 8, bottom: 0 }}>
+    <ChartBox height={isMobile ? 260 : 320}>
+      <LineChart data={data} margin={{ top: 8, right: 8, left: 0, bottom: 0 }}>
         <CartesianGrid strokeDasharray="3 3" stroke="var(--color-border)" vertical={false} />
-        <XAxis dataKey="month" {...axis} />
-        <YAxis {...axis} width={44} domain={[80, "dataMax + 10"]} />
+        <XAxis dataKey="month" {...axis} interval="preserveStartEnd" minTickGap={8} />
+        <YAxis {...axis} width={isMobile ? 32 : 44} domain={[80, "dataMax + 10"]} />
         <Tooltip {...tooltipStyle} />
-        <Legend wrapperStyle={{ fontSize: 12 }} />
-        <Line type="monotone" dataKey="gold" name={t("gold")} stroke="var(--color-accent)" strokeWidth={2.5} dot={false} />
-        <Line type="monotone" dataKey="stocks" name={t("stocks")} stroke="var(--color-primary)" strokeWidth={2.5} dot={false} />
-        <Line type="monotone" dataKey="bitcoin" name={t("bitcoin")} stroke="var(--color-chart-4)" strokeWidth={2.5} dot={false} />
-        <Line type="monotone" dataKey="oil" name={t("oil")} stroke="var(--color-chart-5)" strokeWidth={2.5} dot={false} />
+        <Legend wrapperStyle={legendStyle} iconType="plainline" />
+        <Line type="monotone" dataKey="gold" name={t("gold")} stroke="var(--color-accent)" strokeWidth={2} dot={false} />
+        <Line type="monotone" dataKey="stocks" name={t("stocks")} stroke="var(--color-primary)" strokeWidth={2} dot={false} />
+        <Line type="monotone" dataKey="bitcoin" name={t("bitcoin")} stroke="var(--color-chart-4)" strokeWidth={2} dot={false} />
+        <Line type="monotone" dataKey="oil" name={t("oil")} stroke="var(--color-chart-5)" strokeWidth={2} dot={false} />
       </LineChart>
-    </ResponsiveContainer>
+    </ChartBox>
   );
 }
 
 export function OpportunityChart({ data }: { data: Opportunity[] }) {
   const { t } = useLang();
+  const isMobile = useIsMobile();
   const best = [...data].sort((a, b) => b.suitability - a.suitability)[0];
   const rows = data.map((d) => ({
     name: t(d.key),
@@ -146,20 +200,27 @@ export function OpportunityChart({ data }: { data: Opportunity[] }) {
     isBest: d.key === best?.key,
   }));
   return (
-    <ResponsiveContainer width="100%" height={300}>
-      <BarChart data={rows} margin={{ top: 8, right: 8, left: 8, bottom: 0 }}>
+    <ChartBox height={isMobile ? 260 : 300}>
+      <BarChart data={rows} margin={{ top: 8, right: 8, left: 0, bottom: 0 }} barGap={4}>
         <CartesianGrid strokeDasharray="3 3" stroke="var(--color-border)" vertical={false} />
-        <XAxis dataKey="name" {...axis} />
-        <YAxis {...axis} width={44} />
-        <Tooltip {...tooltipStyle} />
-        <Legend wrapperStyle={{ fontSize: 12 }} />
-        <Bar dataKey="suitability" name={t("suitability")} radius={[8, 8, 0, 0]} barSize={28}>
+        <XAxis dataKey="name" {...axis} interval={0} />
+        <YAxis {...axis} width={isMobile ? 30 : 40} />
+        <Tooltip {...tooltipStyle} cursor={{ fill: "var(--color-secondary)", opacity: 0.5 }} />
+        <Legend wrapperStyle={legendStyle} iconType="circle" />
+        <Bar dataKey="suitability" name={t("suitability")} radius={[6, 6, 0, 0]} barSize={isMobile ? 16 : 26}>
           {rows.map((r) => (
-            <Cell key={r.name} fill={r.isBest ? "var(--color-primary)" : "var(--color-primary)"} fillOpacity={r.isBest ? 1 : 0.35} />
+            <Cell key={r.name} fill="var(--color-primary)" fillOpacity={r.isBest ? 1 : 0.45} />
           ))}
         </Bar>
-        <Bar dataKey="estReturn" name={t("estReturn")} radius={[8, 8, 0, 0]} barSize={28} fill="var(--color-accent)" />
+        <Bar
+          dataKey="estReturn"
+          name={t("estReturn")}
+          radius={[6, 6, 0, 0]}
+          barSize={isMobile ? 16 : 26}
+          fill="var(--color-accent)"
+          fillOpacity={0.75}
+        />
       </BarChart>
-    </ResponsiveContainer>
+    </ChartBox>
   );
 }
