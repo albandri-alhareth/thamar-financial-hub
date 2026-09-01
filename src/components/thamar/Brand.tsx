@@ -2,13 +2,13 @@ import { Link } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 import { Info } from "lucide-react";
 import wordmarkMono from "@/assets/thamar-wordmark-mono.png";
-import logo from "@/assets/thamar-logo.jpg.asset.json";
+import logo from "../../../thamar-logo.png";
 import { useLang } from "@/lib/i18n";
 import { LangToggle } from "@/components/thamar/LangToggle";
 import { cn } from "@/lib/utils";
 
 export const thamarWordmarkUrl = wordmarkMono;
-export const thamarLogoUrl = logo.url;
+export const thamarLogoUrl = logo;
 
 /** Monochrome text logo used in the page corner / header. */
 export function Wordmark({ className }: { className?: string }) {
@@ -29,7 +29,7 @@ export function Wordmark({ className }: { className?: string }) {
 export function LogoMark({ className }: { className?: string }) {
   return (
     <img
-      src={logo.url}
+      src={logo}
       alt="شعار ثَمَر"
       className={cn("rounded-2xl object-contain", className)}
       loading="eager"
@@ -43,7 +43,7 @@ export function Watermark() {
   return (
     <div aria-hidden className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
       <img
-        src={logo.url}
+        src={logo}
         alt=""
         className="absolute top-1/2 left-1/2 w-[min(70vw,560px)] -translate-x-1/2 -translate-y-1/2 opacity-[0.035] mix-blend-multiply"
       />
