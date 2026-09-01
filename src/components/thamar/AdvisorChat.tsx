@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Send, MessageCircleQuestion } from "lucide-react";
+import { Send, Sparkles } from "lucide-react";
 import { useLang } from "@/lib/i18n";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -56,25 +56,26 @@ export function AdvisorChat() {
   }
 
   return (
-    <div className="flex h-full flex-col">
+    <div className="flex h-full min-w-0 flex-col">
       <div
         ref={boxRef}
-        className="max-h-[380px] min-h-[240px] flex-1 space-y-3 overflow-y-auto rounded-xl bg-secondary/40 p-4"
+        className="max-h-[360px] min-h-[220px] flex-1 space-y-3 overflow-y-auto rounded-2xl border border-border bg-secondary/30 p-3 sm:p-4"
       >
-        <p className="rounded-xl bg-card p-3 text-sm leading-relaxed text-muted-foreground">
-          {t("assistantIntro")}
-        </p>
+        <div className="flex items-start gap-2 rounded-xl border border-border bg-card p-3">
+          <span className="grid size-7 shrink-0 place-items-center rounded-lg bg-primary-soft text-primary-strong">
+            <Sparkles className="size-4" aria-hidden />
+          </span>
+          <p className="min-w-0 text-sm leading-relaxed text-muted-foreground">{t("assistantIntro")}</p>
+        </div>
+
         {messages.map((m, i) => (
-          <div
-            key={i}
-            className={cn("flex", m.role === "user" ? "justify-end" : "justify-start")}
-          >
+          <div key={i} className={cn("flex", m.role === "user" ? "justify-end" : "justify-start")}>
             <p
               className={cn(
-                "max-w-[85%] rounded-xl px-3 py-2 text-sm leading-relaxed whitespace-pre-wrap",
+                "max-w-[85%] rounded-2xl px-3 py-2 text-sm leading-relaxed whitespace-pre-wrap",
                 m.role === "user"
-                  ? "bg-primary text-primary-foreground"
-                  : "bg-card text-card-foreground",
+                  ? "bg-primary-soft text-primary-strong"
+                  : "border border-border bg-card text-card-foreground",
               )}
             >
               {m.content || (loading ? t("thinking") : "")}
@@ -87,16 +88,22 @@ export function AdvisorChat() {
         {error ? <p className="text-xs text-destructive">{error}</p> : null}
       </div>
 
-      <form onSubmit={send} className="mt-3 flex items-center gap-2">
-        <MessageCircleQuestion className="size-5 shrink-0 text-primary-strong" aria-hidden />
+      <form onSubmit={send} className="mt-3 flex min-w-0 items-center gap-2">
         <Input
           value={input}
           onChange={(e) => setInput(e.target.value)}
           placeholder={t("assistantPh")}
           dir={lang === "ar" ? "rtl" : "ltr"}
           aria-label={t("assistant")}
+          className="min-w-0 flex-1 rounded-full"
         />
-        <Button type="submit" disabled={loading || !input.trim()} size="icon" aria-label={t("send")}>
+        <Button
+          type="submit"
+          disabled={loading || !input.trim()}
+          size="icon"
+          className="shrink-0 rounded-full"
+          aria-label={t("send")}
+        >
           <Send className="size-4 rtl:-scale-x-100" aria-hidden />
         </Button>
       </form>

@@ -8,22 +8,22 @@ export function RecommendationCard({ item, best }: { item: Opportunity; best: bo
   const riskLabel = t(item.risk);
   const riskTone =
     item.risk === "low"
-      ? "bg-primary/10 text-primary"
+      ? "bg-primary-soft text-primary-strong"
       : item.risk === "medium"
-        ? "bg-accent/20 text-accent-foreground"
+        ? "bg-accent/15 text-accent"
         : "bg-destructive/10 text-destructive";
 
   return (
     <article
       className={cn(
-        "flex h-full flex-col rounded-2xl border bg-card p-5",
-        best ? "border-primary shadow-[var(--shadow-soft)] ring-1 ring-primary/20" : "border-border",
+        "flex h-full flex-col rounded-2xl border bg-card p-4 sm:p-5",
+        best ? "border-primary/50 bg-primary-soft/30" : "border-border",
       )}
     >
-      <div className="flex items-center justify-between gap-2">
-        <h3 className="text-lg font-semibold">{t(item.key)}</h3>
+      <div className="flex min-h-7 items-center justify-between gap-2">
+        <h3 className="truncate text-base font-semibold">{t(item.key)}</h3>
         {best ? (
-          <span className="inline-flex items-center gap-1 rounded-full bg-primary px-2.5 py-1 text-xs font-medium text-primary-foreground">
+          <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-primary-soft px-2.5 py-1 text-xs font-medium text-primary-strong">
             <Sparkles className="size-3.5" aria-hidden />
             {t("bestNow")}
           </span>
@@ -35,7 +35,7 @@ export function RecommendationCard({ item, best }: { item: Opportunity; best: bo
           <span className="text-muted-foreground">{t("suitability")}</span>
           <span className="font-bold tabular-nums">{item.suitability}/100</span>
         </div>
-        <div className="mt-2 h-2 w-full overflow-hidden rounded-full bg-secondary">
+        <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-secondary">
           <div className="h-full rounded-full bg-primary" style={{ width: `${item.suitability}%` }} />
         </div>
       </div>
