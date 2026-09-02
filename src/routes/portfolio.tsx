@@ -113,7 +113,7 @@ function PortfolioPage() {
       </div>
 
 
-      <Section title={t("bestForYou")} subtitle={t("recommendationsSub")}>
+      <Section title={t("bestForYou")}>
         <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
           {opportunities.map((o) => (
             <RecommendationCard key={o.key} item={o} best={o.key === best?.key} />
@@ -121,8 +121,7 @@ function PortfolioPage() {
         </div>
       </Section>
 
-      <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-border bg-card p-5 text-xs text-muted-foreground">
-        <p>{t("disclaimerBody")}</p>
+      <div className="flex flex-wrap items-center justify-end gap-3 rounded-2xl border border-border bg-card p-5 text-xs text-muted-foreground">
         <Link to="/privacy" className="font-medium text-primary-strong underline underline-offset-4">
           {t("privacy")}
         </Link>
