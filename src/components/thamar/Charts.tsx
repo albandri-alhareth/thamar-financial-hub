@@ -15,6 +15,8 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+import { useState } from "react";
+import { cn } from "@/lib/utils";
 import { useLang } from "@/lib/i18n";
 import { useIsMobile } from "@/hooks/use-mobile";
 import type { AllocationSlice, MarketPoint, MonthlyPoint, Opportunity } from "@/lib/finance-api";
