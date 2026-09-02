@@ -59,8 +59,8 @@ function Section({
 }
 
 function PortfolioPage() {
-  const { t, lang } = useLang();
-  const nf = new Intl.NumberFormat(lang === "ar" ? "ar-SA" : "en-US", { maximumFractionDigits: 0 });
+  const { t } = useLang();
+  const nf = new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 });
   const money = (v: number) => `${nf.format(v)} ${t("currency")}`;
 
   const { data: profile } = useSuspenseQuery({ queryKey: ["profile"], queryFn: getPersonalProfile });
