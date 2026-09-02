@@ -139,30 +139,73 @@ const sliceColors: Record<string, string> = {
 
 export function AllocationChart({ data }: { data: AllocationSlice[] }) {
   const { t } = useLang();
+  const [active, setActive] = useState<string | null>(null);
   const rows = data.map((d) => ({ ...d, name: t(d.key) }));
+  const current = rows.find((r) => r.key === active) ?? null;
+
   return (
     <div>
-      <ChartBox height={220}>
-        <PieChart margin={{ top: 4, right: 4, bottom: 4, left: 4 }}>
-          <Pie data={rows} dataKey="value" nameKey="name" innerRadius={54} outerRadius={86} paddingAngle={3}>
-            {rows.map((r) => (
-              <Cell key={r.key} fill={sliceColors[r.key]} stroke="var(--color-card)" strokeWidth={2} />
-            ))}
-          </Pie>
-          <Tooltip {...tooltipStyle} formatter={(v: number) => `${v}%`} />
-        </PieChart>
-      </ChartBox>
+      <div className="relative">
+        <ChartBox height={220}>
+          <PieChart margin={{ top: 4, right: 4, bottom: 4, left: 4 }}>
+            <Pie
+              data={rows}
+              dataKey="value"
+              nameKey="name"
+              innerRadius={56}
+              outerRadius={88}
+              paddingAngle={3}
+              isAnimationActive
+              onMouseEnter={(_, i) => setActive(rows[i]?.key ?? null)}
+              onMouseLeave={() => setActive(null)}
+            >
+              {rows.map((r) => (
+                <Cell
+                  key={r.key}
+                  fill={sliceColors[r.key]}
+                  stroke="var(--color-card)"
+                  strokeWidth={2}
+                  fillOpacity={active && active !== r.key ? 0.35 : 1}
+                  style={{ cursor: "pointer", transition: "fill-opacity 150ms ease" }}
+                />
+              ))}
+            </Pie>
+            <Tooltip {...tooltipStyle} formatter={(v: number) => `${v}%`} />
+          </PieChart>
+        </ChartBox>
+
+        <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center">
+          <span className="text-xl font-bold tabular-nums">
+            {current ? `${current.value}%` : `${rows.reduce((s, r) => s + r.value, 0)}%`}
+          </span>
+          <span className="max-w-[7rem] truncate text-xs text-muted-foreground">
+            {current ? current.name : t("allocation")}
+          </span>
+        </div>
+      </div>
 
       <ul className="mt-4 grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
         {rows.map((r) => (
-          <li key={r.key} className="flex min-w-0 items-center gap-2">
-            <span
-              className="size-2.5 shrink-0 rounded-full"
-              style={{ background: sliceColors[r.key] }}
-              aria-hidden
-            />
-            <span className="truncate text-muted-foreground">{r.name}</span>
-            <span className="ms-auto font-medium tabular-nums">{r.value}%</span>
+          <li key={r.key}>
+            <button
+              type="button"
+              onMouseEnter={() => setActive(r.key)}
+              onMouseLeave={() => setActive(null)}
+              onFocus={() => setActive(r.key)}
+              onBlur={() => setActive(null)}
+              className={cn(
+                "flex w-full min-w-0 items-center gap-2 rounded-lg px-1.5 py-1 text-start transition-colors",
+                active === r.key ? "bg-secondary" : "hover:bg-secondary/60",
+              )}
+            >
+              <span
+                className="size-2.5 shrink-0 rounded-full"
+                style={{ background: sliceColors[r.key] }}
+                aria-hidden
+              />
+              <span className="truncate text-muted-foreground">{r.name}</span>
+              <span className="ms-auto font-medium tabular-nums">{r.value}%</span>
+            </button>
           </li>
         ))}
       </ul>
