@@ -1,9 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { Suspense } from "react";
-import { Banknote, Coins, Gauge, PiggyBank, Shield, TrendingUp, Wallet } from "lucide-react";
+import { Banknote, Coins, Gauge, Vault, Shield, TrendingUp, Wallet } from "lucide-react";
 import { useLang } from "@/lib/i18n";
-import { PageShell, Disclaimer } from "@/components/thamar/Brand";
+import { PageShell } from "@/components/thamar/Brand";
 import { StatCard } from "@/components/thamar/StatCard";
 import { RecommendationCard } from "@/components/thamar/RecommendationCard";
 import { AllocationChart, PersonalChart } from "@/components/thamar/Charts";
@@ -59,8 +59,8 @@ function Section({
 }
 
 function PortfolioPage() {
-  const { t, lang } = useLang();
-  const nf = new Intl.NumberFormat(lang === "ar" ? "ar-SA" : "en-US", { maximumFractionDigits: 0 });
+  const { t } = useLang();
+  const nf = new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 });
   const money = (v: number) => `${nf.format(v)} ${t("currency")}`;
 
   const { data: profile } = useSuspenseQuery({ queryKey: ["profile"], queryFn: getPersonalProfile });
@@ -81,32 +81,9 @@ function PortfolioPage() {
         <p className="mt-1 text-sm text-muted-foreground">{t("portfolioSub")} · {t("demoBadge")}</p>
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <StatCard label={t("income")} value={money(profile.income)} hint={t("monthly")} icon={<Wallet className="size-4" />} />
-        <StatCard label={t("expenses")} value={money(profile.expenses)} hint={t("monthly")} icon={<Banknote className="size-4" />} />
-        <StatCard label={t("savings")} value={money(profile.savings)} icon={<PiggyBank className="size-4" />} />
-        <StatCard
-          label={t("emergency")}
-          value={money(profile.emergencyFund)}
-          icon={<Shield className="size-4" />}
-          progress={emergencyPct}
-          hint={`${Math.round(emergencyPct)}% / ${money(profile.monthlyEmergencyTarget)}`}
-        />
-        <StatCard label={t("investable")} value={money(profile.investable)} icon={<Coins className="size-4" />} accent />
-        <StatCard label={t("savingRate")} value={`${profile.savingRate}%`} progress={profile.savingRate} icon={<TrendingUp className="size-4" />} />
-        <StatCard
-          label={t("sustainability")}
-          value={`${profile.sustainability}/100`}
-          progress={profile.sustainability}
-          hint={t("sustainabilityHint")}
-          icon={<Gauge className="size-4" />}
-        />
-        <Disclaimer />
-      </div>
-
       <div className="grid gap-6 lg:grid-cols-3">
         <div className="lg:col-span-2">
-          <Section title={t("personalChart")} subtitle={t("personalChartSub")}>
+          <Section title={t("personalChart")}>
             <PersonalChart data={history} />
           </Section>
         </div>
@@ -115,7 +92,28 @@ function PortfolioPage() {
         </Section>
       </div>
 
-      <Section title={t("bestForYou")} subtitle={t("recommendationsSub")}>
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <StatCard label={t("income")} value={money(profile.income)} icon={<Wallet className="size-4" />} />
+        <StatCard label={t("expenses")} value={money(profile.expenses)} icon={<Banknote className="size-4" />} />
+        <StatCard label={t("savings")} value={money(profile.savings)} icon={<Vault className="size-4" />} />
+        <StatCard
+          label={t("emergency")}
+          value={money(profile.emergencyFund)}
+          icon={<Shield className="size-4" />}
+          progress={emergencyPct}
+        />
+        <StatCard label={t("investable")} value={money(profile.investable)} icon={<Coins className="size-4" />} accent />
+        <StatCard label={t("savingRate")} value={`${profile.savingRate}%`} progress={profile.savingRate} icon={<TrendingUp className="size-4" />} />
+        <StatCard
+          label={t("sustainability")}
+          value={`${profile.sustainability}/100`}
+          progress={profile.sustainability}
+          icon={<Gauge className="size-4" />}
+        />
+      </div>
+
+
+      <Section title={t("bestForYou")}>
         <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
           {opportunities.map((o) => (
             <RecommendationCard key={o.key} item={o} best={o.key === best?.key} />
@@ -123,8 +121,7 @@ function PortfolioPage() {
         </div>
       </Section>
 
-      <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-border bg-card p-5 text-xs text-muted-foreground">
-        <p>{t("disclaimerBody")}</p>
+      <div className="flex flex-wrap items-center justify-end gap-3 rounded-2xl border border-border bg-card p-5 text-xs text-muted-foreground">
         <Link to="/privacy" className="font-medium text-primary-strong underline underline-offset-4">
           {t("privacy")}
         </Link>
