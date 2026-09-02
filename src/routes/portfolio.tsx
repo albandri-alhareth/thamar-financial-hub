@@ -1,9 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { Suspense } from "react";
-import { Banknote, Coins, Gauge, PiggyBank, Shield, TrendingUp, Wallet } from "lucide-react";
+import { Banknote, Coins, Gauge, Vault, Shield, TrendingUp, Wallet } from "lucide-react";
 import { useLang } from "@/lib/i18n";
-import { PageShell, Disclaimer } from "@/components/thamar/Brand";
+import { PageShell } from "@/components/thamar/Brand";
 import { StatCard } from "@/components/thamar/StatCard";
 import { RecommendationCard } from "@/components/thamar/RecommendationCard";
 import { AllocationChart, PersonalChart } from "@/components/thamar/Charts";
