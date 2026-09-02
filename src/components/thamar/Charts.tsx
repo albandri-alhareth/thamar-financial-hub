@@ -112,6 +112,7 @@ export function PersonalChart({ data }: { data: MonthlyPoint[] }) {
           stroke="var(--color-chart-2)"
           strokeWidth={2}
           dot={false}
+          activeDot={{ r: 4 }}
         />
         <Line
           type="monotone"
@@ -120,8 +121,8 @@ export function PersonalChart({ data }: { data: MonthlyPoint[] }) {
           name={t("expenses")}
           stroke="var(--color-destructive)"
           strokeWidth={2}
-          strokeDasharray="5 4"
           dot={false}
+          activeDot={{ r: 4 }}
         />
       </ComposedChart>
     </ChartBox>
