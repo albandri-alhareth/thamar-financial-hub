@@ -1,24 +1,23 @@
 import { Link } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 import { Info } from "lucide-react";
-import wordmarkMono from "@/assets/thamar-wordmark-mono.png";
-import logo from "../../../thamar-logo.png";
+import newLogoAsset from "@/assets/thamar-new-logo.png.asset.json";
 import { useLang } from "@/lib/i18n";
 import { LangToggle } from "@/components/thamar/LangToggle";
 import { cn } from "@/lib/utils";
 
-export const thamarWordmarkUrl = wordmarkMono;
-export const thamarLogoUrl = logo;
+export const thamarWordmarkUrl = newLogoAsset.url;
+export const thamarLogoUrl = newLogoAsset.url;
 
 /** Monochrome text logo used in the page corner / header. */
 export function Wordmark({ className }: { className?: string }) {
   return (
     <img
-      src={wordmarkMono}
+      src={newLogoAsset.url}
       alt="ثَمَر | THAMAR"
-      width={1137}
-      height={218}
-      className={cn("h-6 w-auto object-contain sm:h-7", className)}
+      width={602}
+      height={608}
+      className={cn("h-11 w-11 object-contain sm:h-12 sm:w-12", className)}
       loading="eager"
       decoding="async"
     />
@@ -29,9 +28,11 @@ export function Wordmark({ className }: { className?: string }) {
 export function LogoMark({ className }: { className?: string }) {
   return (
     <img
-      src={logo}
+      src={newLogoAsset.url}
       alt="شعار ثَمَر"
-      className={cn("rounded-2xl object-contain", className)}
+      width={602}
+      height={608}
+      className={cn("object-contain", className)}
       loading="eager"
       decoding="async"
     />
@@ -43,7 +44,7 @@ export function Watermark() {
   return (
     <div aria-hidden className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
       <img
-        src={logo}
+        src={newLogoAsset.url}
         alt=""
         className="absolute top-1/2 left-1/2 w-[min(70vw,560px)] -translate-x-1/2 -translate-y-1/2 opacity-[0.035] mix-blend-multiply"
       />
