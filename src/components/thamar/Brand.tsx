@@ -1,19 +1,19 @@
 import { Link } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 import { Info } from "lucide-react";
-import newLogoAsset from "@/assets/thamar-new-logo.png.asset.json";
+import transparentLogo from "@/assets/thamar-logo-transparent.png";
 import { useLang } from "@/lib/i18n";
 import { LangToggle } from "@/components/thamar/LangToggle";
 import { cn } from "@/lib/utils";
 
-export const thamarWordmarkUrl = newLogoAsset.url;
-export const thamarLogoUrl = newLogoAsset.url;
+export const thamarWordmarkUrl = transparentLogo;
+export const thamarLogoUrl = transparentLogo;
 
 /** Monochrome text logo used in the page corner / header. */
 export function Wordmark({ className }: { className?: string }) {
   return (
     <img
-      src={newLogoAsset.url}
+      src={transparentLogo}
       alt="ثَمَر | THAMAR"
       width={602}
       height={608}
@@ -28,7 +28,7 @@ export function Wordmark({ className }: { className?: string }) {
 export function LogoMark({ className }: { className?: string }) {
   return (
     <img
-      src={newLogoAsset.url}
+      src={transparentLogo}
       alt="شعار ثَمَر"
       width={602}
       height={608}
@@ -44,7 +44,7 @@ export function Watermark() {
   return (
     <div aria-hidden className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
       <img
-        src={newLogoAsset.url}
+        src={transparentLogo}
         alt=""
         className="absolute top-1/2 left-1/2 w-[min(70vw,560px)] -translate-x-1/2 -translate-y-1/2 opacity-[0.035] mix-blend-multiply"
       />
